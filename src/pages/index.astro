@@ -1,11 +1,370 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+	<canvas id="particle-canvas" aria-hidden="true"></canvas>
+	<header class="sticky top-0 z-50 border-b border-white/10 bg-[#0b1120]/85 px-5 py-4 backdrop-blur-xl sm:px-8">
+		<div class="mx-auto flex max-w-7xl items-center justify-between gap-4">
+			<a href="#hero" class="group flex shrink-0 items-center gap-3" aria-label="JP, inicio">
+				<span class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-brand-cyan to-brand-purple text-xl font-extrabold text-brand-bg shadow-lg shadow-brand-cyan/20 transition-transform group-hover:scale-105">JP</span>
+				<span class="text-lg font-bold tracking-wide">JP <span class="text-brand-cyan">.dev</span></span>
+			</a>
+			<nav class="hidden items-center gap-8 text-sm font-medium text-slate-300 md:flex" aria-label="Navegación principal">
+				<a href="#hero" class="transition-colors hover:text-brand-cyan">Inicio</a>
+				<a href="#about" class="transition-colors hover:text-brand-cyan">Perfil</a>
+				<a href="#experience" class="transition-colors hover:text-brand-cyan">Experiencia</a>
+				<a href="#stack" class="transition-colors hover:text-brand-cyan">Tecnologías</a>
+				<a href="#contact" class="transition-colors hover:text-brand-cyan">Contacto</a>
+			</nav>
+			<a href="#contact" class="rounded-full border border-brand-cyan/30 bg-brand-cyan/10 px-4 py-2.5 text-sm font-semibold text-brand-cyan transition-colors hover:bg-brand-cyan hover:text-brand-bg sm:px-5">¡Hablemos!</a>
+		</div>
+	</header>
+
+	<main class="relative z-10">
+		<section id="hero" class="relative flex min-h-[calc(100svh-72px)] scroll-mt-20 items-center px-5 py-16 sm:px-8 lg:py-20">
+			<div class="pointer-events-none absolute left-[8%] top-1/4 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl"></div>
+			<div class="pointer-events-none absolute bottom-8 right-[8%] h-80 w-80 rounded-full bg-rose-500/10 blur-3xl"></div>
+			<div class="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
+				<div class="flex flex-col items-start gap-6 lg:col-span-7">
+					<div class="inline-flex items-center gap-2.5 rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-cyan-200">
+						<span class="relative flex h-2.5 w-2.5"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70"></span><span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400"></span></span>
+						Desarrollo Full Stack · Inteligencia Artificial
+					</div>
+					<h1 class="max-w-3xl text-4xl font-extrabold leading-[1.08] sm:text-6xl">
+						Soy <span class="bg-gradient-to-r from-cyan-300 via-sky-200 to-indigo-300 bg-clip-text text-transparent">Juan Pablo Medina</span><br />
+						Desarrollador Full Stack <span class="text-slate-400">&</span> orquestador de agentes de IA
+					</h1>
+					<p class="max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">Desarrollador de software con 3 años de experiencia creando aplicaciones web full stack. Trabajo con Next.js, NestJS, Angular, Vue y Laravel, y coordino agentes de inteligencia artificial para apoyar el desarrollo y resolver problemas con criterio técnico.</p>
+					<div class="flex w-full flex-wrap gap-3 pt-1 sm:w-auto">
+						<a href="#experience" class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-brand-cyan px-6 py-3 font-bold text-brand-bg shadow-lg shadow-brand-cyan/20 transition hover:-translate-y-0.5 hover:bg-cyan-300"><i data-lucide="briefcase-business" class="h-4 w-4"></i>Ver experiencia</a>
+						<a href="#contact" class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-6 py-3 font-semibold transition hover:border-brand-cyan/50"><i data-lucide="mail" class="h-4 w-4"></i>Contactarme</a>
+					</div>
+					<div class="mt-4 grid w-full max-w-lg grid-cols-3 gap-4 border-t border-white/10 pt-6 sm:gap-6">
+						<div><p class="text-2xl font-extrabold text-brand-cyan sm:text-3xl">3</p><p class="mt-1 text-xs text-slate-400 sm:text-sm">Años de experiencia</p></div>
+						<div><p class="text-2xl font-extrabold text-brand-cyan sm:text-3xl">2</p><p class="mt-1 text-xs text-slate-400 sm:text-sm">Experiencias laborales</p></div>
+						<div><p class="text-2xl font-extrabold text-brand-cyan sm:text-3xl">IA</p><p class="mt-1 text-xs text-slate-400 sm:text-sm">Agentes orquestados</p></div>
+					</div>
+				</div>
+
+				<div class="relative flex flex-col items-center justify-center lg:col-span-5">
+					<div id="burst-container" class="pointer-events-none absolute inset-0 z-30 overflow-visible" aria-hidden="true"></div>
+					<div id="speech-bubble" class="relative z-20 mb-4 max-w-xs animate-float rounded-2xl border border-brand-cyan/25 bg-[#131f37]/90 px-5 py-3 text-center text-sm font-semibold text-white shadow-2xl backdrop-blur-xl">
+						<span id="speech-text">👋 ¡Hola! Haz clic en los botones para animarme.</span>
+						<span class="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-b border-r border-brand-cyan/25 bg-[#131f37]"></span>
+					</div>
+					<div id="avatar-card" class="avatar-wrapper group relative flex items-center justify-center overflow-hidden rounded-3xl border border-brand-cyan/25 bg-[#131f37]/75 p-3 shadow-2xl backdrop-blur-xl transition-colors hover:border-brand-cyan/50">
+						<div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-cyan-500/10 via-indigo-500/10 to-rose-500/10"></div>
+						<canvas id="avatar-canvas" width="400" height="460" class="relative z-10 h-full w-full cursor-pointer" role="img" aria-label="Avatar ilustrado de JP"></canvas>
+					</div>
+					<div class="relative z-20 mt-5 flex max-w-full items-center gap-1 rounded-2xl border border-brand-cyan/20 bg-[#131f37]/90 p-1.5 shadow-2xl backdrop-blur-md sm:gap-2 sm:p-2">
+						<button id="btn-wave" type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-white/5 px-3 py-2.5 text-xs font-semibold transition hover:bg-brand-cyan/20 active:scale-95 sm:px-4 sm:text-sm"><span>👋</span>Saludar</button>
+						<button id="btn-like" type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-white/5 px-3 py-2.5 text-xs font-semibold transition hover:bg-brand-cyan/20 active:scale-95 sm:px-4 sm:text-sm"><span>👍</span>Dar like</button>
+						<button id="btn-celebrate" type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-white/5 px-3 py-2.5 text-xs font-semibold transition hover:bg-indigo-400/20 active:scale-95 sm:px-4 sm:text-sm"><span>🤙</span>Celebrar</button>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="about" class="scroll-mt-20 border-t border-white/5 px-5 py-20 sm:px-8">
+			<div class="mx-auto max-w-6xl">
+				<div class="mx-auto mb-12 max-w-2xl text-center sm:mb-14"><h2 class="text-3xl font-extrabold sm:text-4xl">Perfil profesional</h2><p class="mt-3 leading-relaxed text-slate-400">Experiencia full stack, arquitectura de software e integración de servicios. Me adapto a nuevos retos y trabajo con foco en la colaboración y la mejora continua.</p></div>
+				<div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+					<article class="skill-card group rounded-2xl border border-white/10 bg-[#131f37]/65 p-7 transition hover:-translate-y-1 hover:border-cyan-300/40">
+						<div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-300/10 text-cyan-300 transition group-hover:scale-110"><i data-lucide="layers-3" class="h-6 w-6"></i></div><h3 class="mb-3 text-xl font-bold">Desarrollo full stack</h3><p class="mb-6 text-sm leading-relaxed text-slate-400">Desarrollo de aplicaciones web de frontend a backend, integración de datos y consumo de APIs.</p><div class="flex flex-wrap gap-2"><span class="tag tag-cyan">Next.js</span><span class="tag tag-cyan">NestJS</span><span class="tag tag-cyan">Angular</span><span class="tag tag-cyan">Vue</span><span class="tag tag-cyan">Laravel</span></div>
+					</article>
+					<article class="skill-card group rounded-2xl border border-white/10 bg-[#131f37]/65 p-7 transition hover:-translate-y-1 hover:border-indigo-300/40">
+						<div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-300/10 text-indigo-300 transition group-hover:scale-110"><i data-lucide="workflow" class="h-6 w-6"></i></div><h3 class="mb-3 text-xl font-bold">Arquitectura e integración</h3><p class="mb-6 text-sm leading-relaxed text-slate-400">Diseño de soluciones con Clean Architecture y MVVM, integración de APIs y manejo de bases SQL y NoSQL.</p><div class="flex flex-wrap gap-2"><span class="tag tag-indigo">Clean Architecture</span><span class="tag tag-indigo">MVVM</span><span class="tag tag-indigo">REST · GraphQL</span></div>
+					</article>
+					<article class="skill-card group rounded-2xl border border-white/10 bg-[#131f37]/65 p-7 transition hover:-translate-y-1 hover:border-rose-300/40">
+						<div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-rose-300/10 text-rose-300 transition group-hover:scale-110"><i data-lucide="bot" class="h-6 w-6"></i></div><h3 class="mb-3 text-xl font-bold">IA y orquestación de agentes</h3><p class="mb-6 text-sm leading-relaxed text-slate-400">Uso herramientas de IA y coordino agentes para dividir tareas, guiar su ejecución y revisar sus resultados dentro del flujo de desarrollo.</p><div class="flex flex-wrap gap-2"><span class="tag tag-rose">IA aplicada</span><span class="tag tag-rose">Orquestación</span><span class="tag tag-rose">Revisión humana</span></div>
+					</article>
+				</div>
+				<div class="mt-8 flex flex-col gap-4 rounded-2xl border border-white/10 bg-[#131f37]/50 p-6 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+					<div class="flex items-center gap-4"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-amber-300/10 text-amber-200"><i data-lucide="graduation-cap" class="h-5 w-5"></i></span><div><p class="text-xs font-semibold uppercase tracking-wider text-amber-200">Formación</p><h3 class="mt-1 font-bold">Tecnólogo · SENA</h3><p class="text-sm text-slate-400">La Plata, Huila</p></div></div>
+					<p class="text-sm text-slate-400 sm:text-right">Agosto de 2022 – enero de 2024</p>
+				</div>
+			</div>
+		</section>
+
+		<section id="experience" class="scroll-mt-20 border-t border-white/5 px-5 py-20 sm:px-8">
+			<div class="mx-auto max-w-6xl">
+				<div class="mb-10"><h2 class="text-3xl font-extrabold sm:text-4xl">Experiencia laboral</h2><p class="mt-2 text-slate-400">Participación en el ciclo completo de desarrollo de software.</p></div>
+				<div class="experience-list">
+					<article class="experience-card" data-reveal>
+						<div class="experience-marker"><i data-lucide="code-xml" class="h-5 w-5"></i></div>
+						<div class="experience-content"><div class="flex flex-col justify-between gap-2 sm:flex-row sm:items-start"><div><p class="text-xs font-semibold uppercase tracking-wider text-cyan-300">Desarrollador Full Stack</p><h3 class="mt-1 text-xl font-bold">WS-Cybersecurity</h3><p class="mt-1 text-sm text-slate-400">Neiva</p></div><span class="w-fit rounded-full border border-white/10 px-3 py-1 text-xs text-slate-400">Experiencia profesional</span></div>
+							<p class="mt-5 max-w-3xl text-sm leading-relaxed text-slate-300">Participé activamente en las fases del ciclo de vida del software. Mi rol abarcó desarrollo full stack, aseguramiento de calidad y definición de requisitos.</p>
+							<div class="experience-details"><div><h4>Frontend y arquitectura</h4><p>Next.js · TypeScript · Clean Architecture · MVVM</p></div><div><h4>Backend y datos</h4><p>NestJS · SQL · NoSQL · REST · GraphQL · React Query</p></div><div><h4>Calidad y trabajo</h4><p>Jest · React Testing Library · Scrum · Kanban</p></div></div>
+						</div>
+					</article>
+					<article class="experience-card" data-reveal>
+						<div class="experience-marker"><i data-lucide="terminal-square" class="h-5 w-5"></i></div>
+						<div class="experience-content"><div class="flex flex-col justify-between gap-2 sm:flex-row sm:items-start"><div><p class="text-xs font-semibold uppercase tracking-wider text-indigo-300">Desarrollador Full Stack</p><h3 class="mt-1 text-xl font-bold">SENA</h3><p class="mt-1 text-sm text-slate-400">Campoalegre</p></div><span class="w-fit rounded-full border border-indigo-300/20 bg-indigo-300/5 px-3 py-1 text-xs text-indigo-200">Enero 2023 – enero 2024</span></div>
+							<p class="mt-5 max-w-3xl text-sm leading-relaxed text-slate-300">Desarrollé aplicaciones web con Angular, Vue y Laravel. También colaboré en despliegues, pruebas, mejoras continuas y en el diseño de la arquitectura del software.</p>
+							<div class="experience-details"><div><h4>Frontend y backend</h4><p>Angular · Vue · Laravel · PHP</p></div><div><h4>Despliegue</h4><p>Docker · AWS · cPanel</p></div><div><h4>Calidad y trabajo</h4><p>PHPUnit · Postman · Scrum · Kanban</p></div></div>
+						</div>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<section id="stack" class="scroll-mt-20 border-t border-white/5 px-5 py-20 sm:px-8">
+			<div class="mx-auto max-w-6xl">
+				<div class="mb-10"><h2 class="text-3xl font-extrabold sm:text-4xl">Tecnologías y herramientas</h2><p class="mt-2 text-slate-400">Herramientas que forman parte de mi experiencia.</p></div>
+				<div class="grid grid-cols-1 gap-x-10 gap-y-7 sm:grid-cols-2 lg:grid-cols-3">
+					<div class="stack-item"><h3>Lenguajes</h3><p>TypeScript · JavaScript · PHP</p></div>
+					<div class="stack-item"><h3>Frameworks</h3><p>Next.js · NestJS · Angular · Vue · Laravel</p></div>
+					<div class="stack-item"><h3>Bases de datos</h3><p>SQL · NoSQL</p></div>
+					<div class="stack-item"><h3>APIs y datos</h3><p>REST · GraphQL · React Query</p></div>
+					<div class="stack-item"><h3>Pruebas</h3><p>Jest · React Testing Library · PHPUnit · Postman</p></div>
+					<div class="stack-item"><h3>Cloud y despliegue</h3><p>Docker · AWS · cPanel</p></div>
+					<div class="stack-item"><h3>Arquitectura</h3><p>Clean Architecture · MVVM</p></div>
+					<div class="stack-item"><h3>Metodologías</h3><p>Scrum · Kanban</p></div>
+					<div class="stack-item"><h3>Inteligencia artificial</h3><p>Uso y orquestación de agentes de IA</p></div>
+					<div class="stack-item"><h3>Idiomas</h3><p>Español · Nativo</p></div>
+				</div>
+			</div>
+		</section>
+
+		<section id="contact" class="scroll-mt-20 border-t border-white/5 px-5 py-20 sm:px-8">
+			<div class="contact-panel relative mx-auto max-w-4xl overflow-hidden rounded-2xl border border-white/10 bg-[#131f37]/70 px-5 py-10 text-center sm:px-12 sm:py-14">
+				<div class="pointer-events-none absolute -bottom-24 -right-16 h-64 w-64 rounded-full bg-cyan-400/10 blur-3xl"></div>
+				<h2 class="relative text-3xl font-extrabold sm:text-4xl">¿Hablamos de tu próximo proyecto?</h2><p class="relative mx-auto mb-8 mt-4 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">Estoy disponible para desarrollo web freelance, proyectos interactivos y colaboraciones. Envíame un mensaje.</p>
+				<div class="relative mb-7 flex flex-col items-center justify-center gap-3 text-sm sm:flex-row sm:gap-7"><a class="inline-flex items-center gap-2 text-cyan-200 transition hover:text-white" href="mailto:medinajpr22@gmail.com"><i data-lucide="mail" class="h-4 w-4"></i>medinajpr22@gmail.com</a><a class="inline-flex items-center gap-2 text-cyan-200 transition hover:text-white" href="tel:+573145116822"><i data-lucide="phone" class="h-4 w-4"></i>+57 314 511 6822</a></div>
+				<form id="contact-form" class="relative mx-auto flex max-w-md flex-col gap-3">
+					<label class="sr-only" for="contact-name">Tu nombre</label><input id="contact-name" name="name" type="text" autocomplete="name" required placeholder="Tu nombre" class="contact-input" />
+					<label class="sr-only" for="contact-email">Tu correo electrónico</label><input id="contact-email" name="email" type="email" autocomplete="email" required placeholder="Tu correo electrónico" class="contact-input" />
+					<label class="sr-only" for="contact-message">Tu mensaje</label><textarea id="contact-message" name="message" rows="3" required placeholder="Tu mensaje..." class="contact-input resize-y"></textarea>
+					<button type="submit" class="mt-1 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-300 via-sky-300 to-indigo-300 px-5 py-3 font-bold text-[#0b1120] shadow-lg shadow-cyan-300/15 transition hover:brightness-110"><i data-lucide="send" class="h-4 w-4"></i>Enviar mensaje</button>
+				</form>
+				<p id="contact-feedback" class="relative mt-4 hidden text-sm font-semibold text-cyan-200" role="status" aria-live="polite">Se abrirá tu aplicación de correo para completar el envío.</p>
+			</div>
+		</section>
+	</main>
+
+	<footer class="relative z-10 border-t border-white/10 bg-[#0b1120]/70 px-5 py-7 text-xs text-slate-500 sm:px-8">
+		<div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left"><p>© 2026 Juan Pablo Medina</p><div class="flex gap-6 text-slate-400"><a href="https://portafolio-eta-mocha.vercel.app" target="_blank" rel="noreferrer" class="transition hover:text-brand-cyan">Portfolio</a><a href="mailto:medinajpr22@gmail.com" class="transition hover:text-brand-cyan">Correo</a><a href="tel:+573145116822" class="transition hover:text-brand-cyan">Teléfono</a></div></div>
+	</footer>
 </Layout>
+
+<style is:global>
+	:root { color-scheme: dark; }
+	html { scroll-behavior: smooth; }
+	body { min-height: 100vh; }
+	#particle-canvas { position: fixed; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
+	.avatar-wrapper { position: relative; width: min(100%, 420px); height: 440px; }
+	.tag { border: 1px solid currentColor; border-radius: 999px; padding: 0.25rem 0.7rem; font-size: 0.7rem; }
+	.tag-cyan { color: #8be3ff; background: rgb(56 189 248 / 8%); border-color: rgb(56 189 248 / 20%); }
+	.tag-indigo { color: #c3c4ff; background: rgb(129 140 248 / 8%); border-color: rgb(129 140 248 / 20%); }
+	.tag-rose { color: #ffb2c0; background: rgb(244 63 94 / 8%); border-color: rgb(244 63 94 / 20%); }
+	.experience-list { position: relative; display: grid; gap: 1.25rem; }
+	.experience-list::before { content: ''; position: absolute; top: 1.8rem; bottom: 1.8rem; left: 1.25rem; width: 1px; background: linear-gradient(#38bdf8, rgb(129 140 248 / 35%), transparent); }
+	.experience-card { position: relative; display: grid; grid-template-columns: 2.75rem minmax(0, 1fr); gap: 1rem; }
+	.experience-marker { z-index: 1; display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border: 1px solid rgb(56 189 248 / 30%); border-radius: 0.75rem; background: #0d192a; color: #8be3ff; }
+	.experience-content { min-width: 0; border: 1px solid rgb(255 255 255 / 10%); border-radius: 1rem; background: rgb(19 31 55 / 68%); padding: 1.35rem; transition: border-color 180ms ease, transform 180ms ease; }
+	.experience-content:hover { transform: translateY(-3px); border-color: rgb(56 189 248 / 35%); }
+	.experience-details { display: grid; gap: 1rem; margin-top: 1.25rem; border-top: 1px solid rgb(255 255 255 / 8%); padding-top: 1.1rem; }
+	.experience-details h4, .stack-item h3 { margin-bottom: 0.35rem; color: #dbe8f5; font-size: 0.75rem; font-weight: 700; }
+	.experience-details p, .stack-item p { color: #94a3b8; font-size: 0.8rem; line-height: 1.6; }
+	.stack-item { border-left: 2px solid rgb(56 189 248 / 45%); padding-left: 1rem; }
+	.stack-item h3 { color: #8be3ff; font-size: 0.8rem; }
+	[data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity 650ms ease, transform 650ms cubic-bezier(.2, .7, .2, 1); }
+	[data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+	.experience-card:nth-child(2) { transition-delay: 100ms; }
+	.contact-input { width: 100%; border: 1px solid rgb(255 255 255 / 12%); border-radius: 0.75rem; background: rgb(11 17 32 / 78%); padding: 0.9rem 1.1rem; color: #f8fafc; outline: none; transition: border-color 160ms ease; }
+	.contact-input::placeholder { color: #77849a; }
+	.contact-input:focus { border-color: #38bdf8; }
+	.project-orbit { position: absolute; width: 145px; height: 145px; border: 1px solid rgb(56 189 248 / 20%); border-radius: 50%; box-shadow: 0 0 50px rgb(56 189 248 / 8%), inset 0 0 45px rgb(56 189 248 / 5%); }
+	.project-orbit::before, .project-orbit::after { content: ''; position: absolute; inset: 18px; border: 1px dashed rgb(56 189 248 / 18%); border-radius: 50%; }
+	.project-orbit::after { inset: 42px; border-style: solid; }
+	.project-grid { position: absolute; width: 170px; height: 130px; transform: perspective(180px) rotateX(54deg); background-image: linear-gradient(rgb(129 140 248 / 18%) 1px, transparent 1px), linear-gradient(90deg, rgb(129 140 248 / 18%) 1px, transparent 1px); background-size: 20px 20px; mask-image: radial-gradient(ellipse, black, transparent 70%); }
+	.particle-pop { position: absolute; font-size: 26px; animation: float-up-fade 1.2s cubic-bezier(.16, 1, .3, 1) forwards; }
+	@keyframes float-up-fade { 0% { opacity: 1; transform: translate(0, 0) scale(.4); } 50% { opacity: 1; transform: translate(var(--dx), var(--dy)) scale(1.2) rotate(12deg); } 100% { opacity: 0; transform: translate(calc(var(--dx) * 1.4), calc(var(--dy) - 70px)) scale(.7) rotate(-20deg); } }
+	@media (max-width: 767px) { .avatar-wrapper { height: 380px; } }
+	@media (min-width: 640px) { .experience-content { padding: 1.75rem; } .experience-details { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+	@media (min-width: 1024px) { .experience-details { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+	@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } [data-reveal] { opacity: 1; transform: none; } }
+</style>
+
+<script is:inline>
+	const avatar = document.getElementById('avatar-canvas');
+	const avatarContext = avatar.getContext('2d');
+	const speechText = document.getElementById('speech-text');
+	const burstContainer = document.getElementById('burst-container');
+	const canvasWidth = 400;
+	const canvasHeight = 460;
+	let pointerX = 0;
+	let pointerY = 0;
+	let eyeX = 0;
+	let eyeY = 0;
+	let animationMode = 'idle';
+	let animationTime = 0;
+	let resetTimer;
+
+	function drawAvatar() {
+		animationTime += 0.04;
+		eyeX += (pointerX - eyeX) * 0.12;
+		eyeY += (pointerY - eyeY) * 0.12;
+		const context = avatarContext;
+		context.clearRect(0, 0, canvasWidth, canvasHeight);
+
+		const celebrating = animationMode === 'celebrate';
+		const headBounce = animationMode === 'idle' ? Math.sin(animationTime * 1.5) * 3 : Math.sin(animationTime * (celebrating ? 6 : 3)) * (celebrating ? 7 : 3);
+		const headTilt = animationMode === 'idle' ? Math.sin(animationTime) * 0.025 : Math.sin(animationTime * 2) * 0.07;
+		const wave = animationMode === 'wave' ? Math.sin(animationTime * 8) * 0.25 : 0;
+
+		context.save();
+		context.translate(200, 230);
+		context.fillStyle = '#101827';
+		context.beginPath();
+		context.ellipse(0, 190, 145, 18, 0, 0, Math.PI * 2);
+		context.fill();
+
+		context.fillStyle = '#f8fafc';
+		context.beginPath();
+		context.moveTo(-38, -35); context.lineTo(38, -35); context.lineTo(65, 185); context.lineTo(-65, 185); context.closePath(); context.fill();
+		const suit = context.createLinearGradient(-120, 0, 120, 180);
+		suit.addColorStop(0, '#27344a'); suit.addColorStop(1, '#111a2b');
+		context.fillStyle = suit;
+		context.beginPath(); context.moveTo(-145, 185); context.lineTo(-115, -6); context.lineTo(-34, 18); context.lineTo(-18, 185); context.closePath(); context.fill();
+		context.beginPath(); context.moveTo(145, 185); context.lineTo(115, -6); context.lineTo(34, 18); context.lineTo(18, 185); context.closePath(); context.fill();
+		context.strokeStyle = '#0a101b'; context.lineWidth = 4; context.stroke();
+		context.fillStyle = '#8a96a8';
+		context.beginPath(); context.moveTo(-13, 0); context.lineTo(13, 0); context.lineTo(19, 145); context.lineTo(0, 164); context.lineTo(-19, 145); context.closePath(); context.fill();
+		context.fillStyle = '#e5a378'; context.fillRect(-21, -72, 42, 46);
+
+		context.save();
+		context.translate(112, -5);
+		context.rotate(animationMode === 'wave' ? -1.05 + wave : animationMode === 'like' ? -0.8 : celebrating ? -0.9 + Math.sin(animationTime * 6) * 0.2 : 0.12);
+		context.fillStyle = '#27344a'; context.beginPath(); context.roundRect(-20, 0, 40, 124, 18); context.fill();
+		context.fillStyle = '#e5a378'; context.beginPath(); context.arc(0, 131, 17, 0, Math.PI * 2); context.fill();
+		if (animationMode === 'like') { context.beginPath(); context.roundRect(-6, 99, 13, 28, 6); context.fill(); }
+		if (celebrating) { context.font = '25px sans-serif'; context.fillText('🤙', -16, 147); }
+		context.restore();
+
+		context.save();
+		context.translate(-112, -5);
+		context.rotate(celebrating ? 0.9 + Math.cos(animationTime * 6) * 0.2 : 0.1);
+		context.fillStyle = '#27344a'; context.beginPath(); context.roundRect(-20, 0, 40, 124, 18); context.fill();
+		context.fillStyle = '#e5a378'; context.beginPath(); context.arc(0, 131, 17, 0, Math.PI * 2); context.fill();
+		if (celebrating) { context.font = '25px sans-serif'; context.fillText('🤙', -10, 147); }
+		context.restore();
+
+		context.save();
+		context.translate(0, -70 + headBounce);
+		context.rotate(headTilt);
+		const skin = context.createLinearGradient(0, -90, 0, 80);
+		skin.addColorStop(0, '#f2b58c'); skin.addColorStop(1, '#d98e62');
+		context.fillStyle = skin; context.strokeStyle = '#281910'; context.lineWidth = 3;
+		context.beginPath(); context.moveTo(-68, -28); context.bezierCurveTo(-74, -100, 74, -100, 68, -28); context.bezierCurveTo(68, 42, 45, 75, 0, 80); context.bezierCurveTo(-45, 75, -68, 42, -68, -28); context.fill(); context.stroke();
+		context.fillStyle = '#17191f'; context.beginPath(); context.moveTo(-70, -30); context.bezierCurveTo(-75, -106, 75, -106, 70, -30); context.quadraticCurveTo(0, -68, -70, -30); context.fill();
+		context.fillStyle = '#15171c';
+		context.beginPath(); context.moveTo(-51, -34); context.quadraticCurveTo(-30, -42, -12, -34); context.lineTo(-15, -29); context.quadraticCurveTo(-33, -34, -51, -34); context.fill();
+		context.beginPath(); context.moveTo(51, -34); context.quadraticCurveTo(30, -42, 12, -34); context.lineTo(15, -29); context.quadraticCurveTo(33, -34, 51, -34); context.fill();
+		for (const eyeCenter of [-32, 32]) {
+			context.fillStyle = '#fff'; context.beginPath(); context.ellipse(eyeCenter, -15, 11, 7, 0, 0, Math.PI * 2); context.fill();
+			context.fillStyle = '#26364b'; context.beginPath(); context.arc(eyeCenter + eyeX, -15 + eyeY, 5, 0, Math.PI * 2); context.fill();
+			context.fillStyle = '#fff'; context.beginPath(); context.arc(eyeCenter + eyeX - 1.5, -17 + eyeY, 1.7, 0, Math.PI * 2); context.fill();
+		}
+		context.strokeStyle = '#1e2430'; context.lineWidth = 4;
+		context.beginPath(); context.roundRect(-56, -30, 48, 30, 6); context.roundRect(8, -30, 48, 30, 6); context.moveTo(-8, -19); context.lineTo(8, -19); context.stroke();
+		context.strokeStyle = '#b86b40'; context.lineWidth = 2;
+		context.beginPath(); context.moveTo(0, -15); context.lineTo(-4, 12); context.quadraticCurveTo(0, 17, 8, 12); context.stroke();
+		context.fillStyle = '#fff'; context.beginPath(); context.moveTo(-25, 37); context.quadraticCurveTo(0, animationMode === 'idle' ? 45 : 61, 25, 37); context.quadraticCurveTo(0, animationMode === 'idle' ? 49 : 65, -25, 37); context.fill();
+		context.restore();
+		context.restore();
+		requestAnimationFrame(drawAvatar);
+	}
+
+	function spawnBurst(emojiList, count) {
+		for (let index = 0; index < count; index += 1) {
+			const particle = document.createElement('span');
+			particle.className = 'particle-pop';
+			particle.textContent = emojiList[Math.floor(Math.random() * emojiList.length)];
+			particle.style.left = `${40 + Math.random() * 75}%`;
+			particle.style.top = `${35 + Math.random() * 35}%`;
+			particle.style.setProperty('--dx', `${(Math.random() - 0.5) * 180}px`);
+			particle.style.setProperty('--dy', `${-(Math.random() * 120 + 50)}px`);
+			burstContainer.appendChild(particle);
+			window.setTimeout(() => particle.remove(), 1250);
+		}
+	}
+
+	function setAnimation(mode, message, emojis, count, duration = 3200) {
+		animationMode = mode;
+		speechText.textContent = message;
+		spawnBurst(emojis, count);
+		window.clearTimeout(resetTimer);
+		resetTimer = window.setTimeout(() => {
+			animationMode = 'idle';
+			speechText.textContent = '👋 ¡Hola! Haz clic en los botones para animarme.';
+		}, duration);
+	}
+
+	document.getElementById('btn-wave').addEventListener('click', () => setAnimation('wave', '¡Hola! Qué gusto verte por aquí. 👋✨', ['👋', '✨', '💻'], 8));
+	document.getElementById('btn-like').addEventListener('click', () => setAnimation('like', '¡Muchas gracias por el apoyo! 👍🔥', ['👍', '💙', '⭐', '🔥'], 12));
+	document.getElementById('btn-celebrate').addEventListener('click', () => setAnimation('celebrate', '🤙 ¡Modo celebración activado! ⚽🔥', ['🤙', '⚽', '✨', '🎉', '🔥'], 16, 4500));
+
+	avatar.addEventListener('pointermove', (event) => {
+		const bounds = avatar.getBoundingClientRect();
+		pointerX = Math.max(-5, Math.min(5, ((event.clientX - bounds.left) / bounds.width - 0.5) * 10));
+		pointerY = Math.max(-3, Math.min(3, ((event.clientY - bounds.top) / bounds.height - 0.32) * 8));
+	});
+	avatar.addEventListener('pointerleave', () => { pointerX = 0; pointerY = 0; });
+	drawAvatar();
+
+	const backgroundCanvas = document.getElementById('particle-canvas');
+	const backgroundContext = backgroundCanvas.getContext('2d');
+	let backgroundParticles = [];
+	function resizeBackground() {
+		const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+		backgroundCanvas.width = window.innerWidth * pixelRatio;
+		backgroundCanvas.height = window.innerHeight * pixelRatio;
+		backgroundContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+		backgroundParticles = Array.from({ length: Math.min(55, Math.floor(window.innerWidth / 24)) }, () => ({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, radius: Math.random() * 1.5 + 0.5, vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3, alpha: Math.random() * 0.3 + 0.08 }));
+	}
+	function animateBackground() {
+		backgroundContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+		for (const particle of backgroundParticles) {
+			particle.x += particle.vx; particle.y += particle.vy;
+			if (particle.x < 0 || particle.x > window.innerWidth) particle.vx *= -1;
+			if (particle.y < 0 || particle.y > window.innerHeight) particle.vy *= -1;
+			backgroundContext.beginPath(); backgroundContext.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+			backgroundContext.fillStyle = `rgba(56, 189, 248, ${particle.alpha})`; backgroundContext.fill();
+		}
+		requestAnimationFrame(animateBackground);
+	}
+	window.addEventListener('resize', resizeBackground);
+	resizeBackground();
+	animateBackground();
+
+	document.getElementById('contact-form').addEventListener('submit', (event) => {
+		event.preventDefault();
+		const formData = new FormData(event.currentTarget);
+		const name = String(formData.get('name') || '');
+		const email = String(formData.get('email') || '');
+		const message = String(formData.get('message') || '');
+		const feedback = document.getElementById('contact-feedback');
+		feedback.classList.remove('hidden');
+		speechText.textContent = '¡Gracias por escribirme! 🚀';
+		spawnBurst(['✉️', '🚀', '✨'], 10);
+		const subject = encodeURIComponent(`Contacto desde el portfolio: ${name}`);
+		const body = encodeURIComponent(`Nombre: ${name}\nCorreo: ${email}\n\nMensaje:\n${message}`);
+		window.location.href = `mailto:medinajpr22@gmail.com?subject=${subject}&body=${body}`;
+	});
+
+	const revealElements = [...document.querySelectorAll('[data-reveal]')];
+	function revealExperiences() {
+		for (const element of revealElements) {
+			if (element.getBoundingClientRect().top < window.innerHeight * 0.9) {
+				element.classList.add('is-visible');
+			}
+		}
+	}
+	window.addEventListener('scroll', revealExperiences, { passive: true });
+	window.addEventListener('resize', revealExperiences);
+	revealExperiences();
+
+	if (window.lucide) window.lucide.createIcons();
+</script>

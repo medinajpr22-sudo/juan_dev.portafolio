@@ -1,12 +1,21 @@
+---
+import '../styles/global.css';
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="es" class="dark scroll-smooth">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<meta name="description" content="Juan Pablo Medina, desarrollador de software Full Stack y orquestador de agentes de inteligencia artificial." />
+		<title>Juan Pablo Medina | Desarrollador Full Stack</title>
+		<script src="https://unpkg.com/lucide@latest"></script>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 	</head>
 	<body>
 		<slot />
@@ -19,5 +28,12 @@
 		margin: 0;
 		width: 100%;
 		height: 100%;
+	}
+
+	body {
+		font-family: 'Inter', sans-serif;
+		background-color: #0b1120;
+		color: #f8fafc;
+		overflow-x: hidden;
 	}
 </style>

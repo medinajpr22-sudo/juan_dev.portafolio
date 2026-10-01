@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-bg: #0b1120;
+  --color-brand-card: #131f37;
+  --color-brand-cyan: #38bdf8;
+  --color-brand-purple: #818cf8;
+  --color-brand-pink: #f43f5e;
+  --color-brand-text: #f8fafc;
+  --animate-float: float 4s ease-in-out infinite;
+  --animate-pulse-glow: pulseGlow 3s infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.03); }
+  }
+
+  @keyframes shimmer {
+    to { background-position: 200% center; }
+  }
+}
+
+@custom-variant dark (&:where(.dark, .dark *));

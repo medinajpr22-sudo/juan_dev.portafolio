@@ -23,10 +23,10 @@ import Layout from '../layouts/Layout.astro';
 
 	<main class="relative z-10">
 		<section id="hero" class="relative flex min-h-[calc(100svh-72px)] scroll-mt-20 items-center px-5 py-16 sm:px-8 lg:py-20">
-			<div class="pointer-events-none absolute left-[8%] top-1/4 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl"></div>
-			<div class="pointer-events-none absolute bottom-8 right-[8%] h-80 w-80 rounded-full bg-rose-500/10 blur-3xl"></div>
+			<div class="pointer-events-none absolute left-[8%] top-1/4 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl" data-scroll-speed="140"></div>
+			<div class="pointer-events-none absolute bottom-8 right-[8%] h-80 w-80 rounded-full bg-rose-500/10 blur-3xl" data-scroll-speed="-90"></div>
 			<div class="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
-				<div class="flex flex-col items-start gap-6 lg:col-span-7">
+				<div class="hero-intro flex flex-col items-start gap-6 lg:col-span-7">
 					<div class="inline-flex items-center gap-2.5 rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-cyan-200">
 						<span class="relative flex h-2.5 w-2.5"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70"></span><span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400"></span></span>
 						Desarrollo Full Stack · Inteligencia Artificial
@@ -47,20 +47,28 @@ import Layout from '../layouts/Layout.astro';
 					</div>
 				</div>
 
-				<div class="relative flex flex-col items-center justify-center lg:col-span-5">
-					<div id="burst-container" class="pointer-events-none absolute inset-0 z-30 overflow-visible" aria-hidden="true"></div>
-					<div id="speech-bubble" class="relative z-20 mb-4 max-w-xs animate-float rounded-2xl border border-brand-cyan/25 bg-[#131f37]/90 px-5 py-3 text-center text-sm font-semibold text-white shadow-2xl backdrop-blur-xl">
-						<span id="speech-text">👋 ¡Hola! Haz clic en los botones para animarme.</span>
-						<span class="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-b border-r border-brand-cyan/25 bg-[#131f37]"></span>
-					</div>
-					<div id="avatar-card" class="avatar-wrapper group relative flex items-center justify-center overflow-hidden rounded-3xl border border-brand-cyan/25 bg-[#131f37]/75 p-3 shadow-2xl backdrop-blur-xl transition-colors hover:border-brand-cyan/50">
-						<div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-cyan-500/10 via-indigo-500/10 to-rose-500/10"></div>
-						<canvas id="avatar-canvas" width="400" height="460" class="relative z-10 h-full w-full cursor-pointer" role="img" aria-label="Avatar ilustrado de JP"></canvas>
-					</div>
-					<div class="relative z-20 mt-5 flex max-w-full items-center gap-1 rounded-2xl border border-brand-cyan/20 bg-[#131f37]/90 p-1.5 shadow-2xl backdrop-blur-md sm:gap-2 sm:p-2">
-						<button id="btn-wave" type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-white/5 px-3 py-2.5 text-xs font-semibold transition hover:bg-brand-cyan/20 active:scale-95 sm:px-4 sm:text-sm"><span>👋</span>Saludar</button>
-						<button id="btn-like" type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-white/5 px-3 py-2.5 text-xs font-semibold transition hover:bg-brand-cyan/20 active:scale-95 sm:px-4 sm:text-sm"><span>👍</span>Dar like</button>
-						<button id="btn-celebrate" type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-white/5 px-3 py-2.5 text-xs font-semibold transition hover:bg-indigo-400/20 active:scale-95 sm:px-4 sm:text-sm"><span>🤙</span>Celebrar</button>
+				<div id="avatar-stage" class="avatar-stage relative flex justify-center lg:col-span-5">
+					<div id="avatar-scene" class="avatar-scene relative flex w-full flex-col items-center">
+						<div class="avatar-orbit" aria-hidden="true"></div>
+						<div id="burst-container" class="depth-layer pointer-events-none absolute inset-0 z-30 overflow-visible" style="--depth: 110px" aria-hidden="true"></div>
+						<div id="speech-bubble" class="depth-layer relative z-20 mb-4 max-w-xs animate-float rounded-2xl border border-brand-cyan/25 bg-[#131f37]/90 px-5 py-3 text-center text-sm font-semibold text-white shadow-2xl backdrop-blur-xl" style="--depth: 45px">
+							<span id="speech-text" class="inline-block">👋 ¡Hola! Haz clic en los botones para animarme.</span>
+							<span class="absolute -bottom-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-b border-r border-brand-cyan/25 bg-[#131f37]"></span>
+						</div>
+						<div id="avatar-card" class="depth-layer avatar-wrapper group relative flex items-center justify-center overflow-hidden rounded-3xl border border-brand-cyan/25 bg-[#131f37]/75 p-3 shadow-2xl backdrop-blur-xl transition-colors hover:border-brand-cyan/50">
+							<div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-cyan-500/10 via-indigo-500/10 to-rose-500/10"></div>
+							<div class="avatar-spotlight pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true"></div>
+							<canvas id="avatar-canvas" width="400" height="460" class="relative z-10 h-full w-full" role="img" aria-label="Avatar ilustrado de JP"></canvas>
+							<div class="avatar-glare pointer-events-none absolute inset-0 z-20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true"></div>
+						</div>
+						<span class="floating-chip chip-a depth-layer" style="--depth: 95px; --delay: 650ms" aria-hidden="true"><i data-lucide="code-xml" class="h-3.5 w-3.5 text-cyan-300"></i>Next.js · NestJS</span>
+						<span class="floating-chip chip-b depth-layer" style="--depth: 75px; --delay: 800ms" aria-hidden="true"><i data-lucide="bot" class="h-3.5 w-3.5 text-rose-300"></i>Agentes IA</span>
+						<span class="floating-chip chip-c depth-layer" style="--depth: 60px; --delay: 950ms" aria-hidden="true"><i data-lucide="workflow" class="h-3.5 w-3.5 text-indigo-300"></i>Clean Architecture</span>
+						<div class="depth-layer relative z-20 mt-5 flex max-w-full items-center gap-1 rounded-2xl border border-brand-cyan/20 bg-[#131f37]/90 p-1.5 shadow-2xl backdrop-blur-md sm:gap-2 sm:p-2" style="--depth: 30px">
+							<button id="btn-wave" type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-white/5 px-3 py-2.5 text-xs font-semibold transition hover:bg-brand-cyan/20 active:scale-95 sm:px-4 sm:text-sm"><span>👋</span>Saludar</button>
+							<button id="btn-like" type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-white/5 px-3 py-2.5 text-xs font-semibold transition hover:bg-brand-cyan/20 active:scale-95 sm:px-4 sm:text-sm"><span>👍</span>Dar like</button>
+							<button id="btn-celebrate" type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-white/5 px-3 py-2.5 text-xs font-semibold transition hover:bg-indigo-400/20 active:scale-95 sm:px-4 sm:text-sm"><span>🤙</span>Celebrar</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -149,11 +157,36 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style is:global>
-	:root { color-scheme: dark; }
+	:root { color-scheme: dark; --ball-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3CclipPath id='b'%3E%3Ccircle cx='16' cy='16' r='14.5'/%3E%3C/clipPath%3E%3Ccircle cx='16' cy='16' r='14.5' fill='%23fff'/%3E%3Cg clip-path='url(%23b)' fill='%230b1120'%3E%3Ccircle cx='16' cy='1' r='4.4'/%3E%3Ccircle cx='30.3' cy='11.4' r='4.4'/%3E%3Ccircle cx='24.8' cy='28.1' r='4.4'/%3E%3Ccircle cx='7.2' cy='28.1' r='4.4'/%3E%3Ccircle cx='1.7' cy='11.4' r='4.4'/%3E%3C/g%3E%3Cpath d='M16 10.5l5.2 3.8-2 6.1h-6.4l-2-6.1z' fill='%230b1120'/%3E%3Cpath d='M16 10.5V5.6M21.2 14.3l4.7-1.5M19.2 20.4l2.9 4M12.8 20.4l-2.9 4M10.8 14.3l-4.7-1.5' stroke='%230b1120' stroke-width='1.4' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='14.5' fill='none' stroke='%230b1120' stroke-width='1.5'/%3E%3C/svg%3E"); }
 	html { scroll-behavior: smooth; }
 	body { min-height: 100vh; }
 	#particle-canvas { position: fixed; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
 	.avatar-wrapper { position: relative; width: min(100%, 420px); height: 440px; }
+	.hero-intro > * { animation: rise-in 750ms cubic-bezier(.2, .7, .2, 1) both; }
+	.hero-intro > :nth-child(2) { animation-delay: 80ms; }
+	.hero-intro > :nth-child(3) { animation-delay: 160ms; }
+	.hero-intro > :nth-child(4) { animation-delay: 240ms; }
+	.hero-intro > :nth-child(5) { animation-delay: 320ms; }
+	.avatar-stage { perspective: 1200px; translate: 0 var(--scroll-shift, 0px); animation: stage-in 1s 150ms cubic-bezier(.2, .7, .2, 1) both; }
+	.avatar-scene { transform-style: preserve-3d; transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)); }
+	.depth-layer { translate: 0 0 var(--depth, 0px); }
+	.avatar-orbit { position: absolute; left: 50%; top: 50%; width: min(115%, 500px); aspect-ratio: 1; border: 1px solid rgb(56 189 248 / 18%); border-radius: 50%; box-shadow: 0 0 70px rgb(56 189 248 / 10%), inset 0 0 60px rgb(129 140 248 / 8%); translate: -50% -50% -90px; pointer-events: none; animation: orbit-spin 38s linear infinite; }
+	.avatar-orbit::before { content: ''; position: absolute; inset: 9%; border: 1px dashed rgb(129 140 248 / 22%); border-radius: 50%; }
+	.avatar-orbit::after { content: ''; position: absolute; top: -4px; left: 50%; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: #38bdf8; box-shadow: 0 0 14px 2px #38bdf8; }
+	#avatar-card { cursor: var(--ball-icon) 16 16, pointer; }
+	#avatar-card.is-kicking { cursor: pointer; }
+	.kicked-ball { position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px; background: var(--ball-icon) center / contain no-repeat; filter: drop-shadow(0 8px 10px rgb(0 0 0 / 45%)); }
+	.avatar-spotlight { background: radial-gradient(320px circle at var(--spot-x, 50%) var(--spot-y, 40%), rgb(56 189 248 / 32%), rgb(129 140 248 / 10%) 45%, transparent 75%); }
+	.avatar-glare { background: radial-gradient(220px circle at var(--spot-x, 50%) var(--spot-y, 40%), rgb(255 255 255 / 28%), transparent 70%); mix-blend-mode: soft-light; }
+	.floating-chip { position: absolute; z-index: 25; display: inline-flex; align-items: center; gap: 0.4rem; border: 1px solid rgb(56 189 248 / 25%); border-radius: 0.75rem; background: rgb(19 31 55 / 94%); padding: 0.45rem 0.75rem; color: #dbe8f5; font-size: 0.72rem; font-weight: 600; white-space: nowrap; box-shadow: 0 18px 40px rgb(0 0 0 / 35%); pointer-events: none; animation: chip-in 700ms var(--delay, 0ms) cubic-bezier(.34, 1.56, .64, 1) both, chip-float 6s var(--delay, 0ms) ease-in-out infinite; }
+	.chip-a { top: 21%; left: 0; }
+	.chip-b { top: 72%; right: 0; animation-duration: 700ms, 7s; }
+	.chip-c { bottom: 18%; left: 2%; animation-duration: 700ms, 5.5s; }
+	@keyframes rise-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+	@keyframes stage-in { from { opacity: 0; transform: perspective(1200px) translateY(40px) rotateX(14deg) scale(.95); } to { opacity: 1; transform: none; } }
+	@keyframes orbit-spin { to { rotate: 360deg; } }
+	@keyframes chip-in { from { opacity: 0; scale: .6; } to { opacity: 1; scale: 1; } }
+	@keyframes chip-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 	.tag { border: 1px solid currentColor; border-radius: 999px; padding: 0.25rem 0.7rem; font-size: 0.7rem; }
 	.tag-cyan { color: #8be3ff; background: rgb(56 189 248 / 8%); border-color: rgb(56 189 248 / 20%); }
 	.tag-indigo { color: #c3c4ff; background: rgb(129 140 248 / 8%); border-color: rgb(129 140 248 / 20%); }
@@ -182,9 +215,10 @@ import Layout from '../layouts/Layout.astro';
 	.particle-pop { position: absolute; font-size: 26px; animation: float-up-fade 1.2s cubic-bezier(.16, 1, .3, 1) forwards; }
 	@keyframes float-up-fade { 0% { opacity: 1; transform: translate(0, 0) scale(.4); } 50% { opacity: 1; transform: translate(var(--dx), var(--dy)) scale(1.2) rotate(12deg); } 100% { opacity: 0; transform: translate(calc(var(--dx) * 1.4), calc(var(--dy) - 70px)) scale(.7) rotate(-20deg); } }
 	@media (max-width: 767px) { .avatar-wrapper { height: 380px; } }
+	@media (min-width: 1024px) { .chip-a { left: -1.25rem; } .chip-b { right: -1.25rem; } .chip-c { left: -0.5rem; } }
 	@media (min-width: 640px) { .experience-content { padding: 1.75rem; } .experience-details { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 	@media (min-width: 1024px) { .experience-details { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-	@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } [data-reveal] { opacity: 1; transform: none; } }
+	@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } [data-reveal] { opacity: 1; transform: none; } .hero-intro > *, .avatar-stage, .floating-chip { animation: none !important; } }
 </style>
 
 <script is:inline>
@@ -192,8 +226,20 @@ import Layout from '../layouts/Layout.astro';
 	const avatarContext = avatar.getContext('2d');
 	const speechText = document.getElementById('speech-text');
 	const burstContainer = document.getElementById('burst-container');
+	const heroSection = document.getElementById('hero');
+	const avatarStage = document.getElementById('avatar-stage');
+	const avatarScene = document.getElementById('avatar-scene');
+	const avatarCard = document.getElementById('avatar-card');
+	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+	const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+	const desktopLayout = window.matchMedia('(min-width: 1024px)');
+	const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 	const canvasWidth = 400;
 	const canvasHeight = 460;
+	const avatarPixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+	avatar.width = canvasWidth * avatarPixelRatio;
+	avatar.height = canvasHeight * avatarPixelRatio;
+	avatarContext.scale(avatarPixelRatio, avatarPixelRatio);
 	let pointerX = 0;
 	let pointerY = 0;
 	let eyeX = 0;
@@ -201,6 +247,51 @@ import Layout from '../layouts/Layout.astro';
 	let animationMode = 'idle';
 	let animationTime = 0;
 	let resetTimer;
+	// Ángulos de brazo y antebrazo por pose. El antebrazo sube girando hacia el cuerpo para que la mano nunca salga del canvas.
+	const armPoses = {
+		idle: { rightUpper: 0.12, rightFore: 0, leftUpper: 0.1, leftFore: 0 },
+		wave: { rightUpper: -0.5, rightFore: 3.88, leftUpper: 0.1, leftFore: 0 },
+		like: { rightUpper: -0.25, rightFore: 3.29, leftUpper: 0.1, leftFore: 0 },
+		celebrate: { rightUpper: -0.55, rightFore: 3.98, leftUpper: 0.55, leftFore: -3.98 },
+	};
+	const arms = { ...armPoses.idle };
+
+	function drawHand(context, type, side) {
+		context.fillStyle = '#e5a378';
+		if (type === 'celebrate') {
+			if (side < 0) context.scale(-1, 1);
+			context.font = '30px sans-serif'; context.textAlign = 'center'; context.textBaseline = 'middle';
+			context.fillText('🤙', 0, 0);
+			return;
+		}
+		if (type === 'like') {
+			context.beginPath(); context.roundRect(-6, -34, 13, 26, 6); context.fill();
+			context.beginPath(); context.arc(0, 0, 16, 0, Math.PI * 2); context.fill();
+			context.strokeStyle = '#c47f55'; context.lineWidth = 2;
+			context.beginPath(); for (const y of [-5, 2, 9]) { context.moveTo(-10, y); context.lineTo(4, y); } context.stroke();
+			return;
+		}
+		if (type === 'wave') {
+			for (const offset of [-1.5, -0.5, 0.5, 1.5]) { context.beginPath(); context.roundRect(offset * 7.5 - 3.2, -30 + Math.abs(offset) * 3, 6.5, 20, 3.2); context.fill(); }
+			context.save(); context.rotate(-0.7 * side); context.beginPath(); context.roundRect(-3.5 - 15 * side, -6, 7, 17, 3.5); context.fill(); context.restore();
+		}
+		context.beginPath(); context.arc(0, 0, 16, 0, Math.PI * 2); context.fill();
+	}
+
+	function drawArm(context, side, upperAngle, foreAngle, handType) {
+		context.save();
+		context.translate(112 * side, -5);
+		context.rotate(upperAngle);
+		context.fillStyle = '#27344a';
+		context.beginPath(); context.roundRect(-20, 0, 40, 72, 18); context.fill();
+		context.translate(0, 60);
+		context.rotate(foreAngle);
+		context.beginPath(); context.roundRect(-19, 0, 38, 64, 18); context.fill();
+		context.translate(0, 71);
+		context.rotate(-(upperAngle + foreAngle));
+		drawHand(context, handType, side);
+		context.restore();
+	}
 
 	function drawAvatar() {
 		animationTime += 0.04;
@@ -212,7 +303,12 @@ import Layout from '../layouts/Layout.astro';
 		const celebrating = animationMode === 'celebrate';
 		const headBounce = animationMode === 'idle' ? Math.sin(animationTime * 1.5) * 3 : Math.sin(animationTime * (celebrating ? 6 : 3)) * (celebrating ? 7 : 3);
 		const headTilt = animationMode === 'idle' ? Math.sin(animationTime) * 0.025 : Math.sin(animationTime * 2) * 0.07;
-		const wave = animationMode === 'wave' ? Math.sin(animationTime * 8) * 0.25 : 0;
+		const pose = armPoses[animationMode];
+		const swing = animationMode === 'wave' ? Math.sin(animationTime * 8) * 0.6 : celebrating ? Math.sin(animationTime * 6) * 0.35 : 0;
+		arms.rightUpper += (pose.rightUpper - arms.rightUpper) * 0.15;
+		arms.rightFore += (pose.rightFore + swing - arms.rightFore) * 0.15;
+		arms.leftUpper += (pose.leftUpper - arms.leftUpper) * 0.15;
+		arms.leftFore += (pose.leftFore - (celebrating ? swing : 0) - arms.leftFore) * 0.15;
 
 		context.save();
 		context.translate(200, 230);
@@ -234,22 +330,8 @@ import Layout from '../layouts/Layout.astro';
 		context.beginPath(); context.moveTo(-13, 0); context.lineTo(13, 0); context.lineTo(19, 145); context.lineTo(0, 164); context.lineTo(-19, 145); context.closePath(); context.fill();
 		context.fillStyle = '#e5a378'; context.fillRect(-21, -72, 42, 46);
 
-		context.save();
-		context.translate(112, -5);
-		context.rotate(animationMode === 'wave' ? -1.05 + wave : animationMode === 'like' ? -0.8 : celebrating ? -0.9 + Math.sin(animationTime * 6) * 0.2 : 0.12);
-		context.fillStyle = '#27344a'; context.beginPath(); context.roundRect(-20, 0, 40, 124, 18); context.fill();
-		context.fillStyle = '#e5a378'; context.beginPath(); context.arc(0, 131, 17, 0, Math.PI * 2); context.fill();
-		if (animationMode === 'like') { context.beginPath(); context.roundRect(-6, 99, 13, 28, 6); context.fill(); }
-		if (celebrating) { context.font = '25px sans-serif'; context.fillText('🤙', -16, 147); }
-		context.restore();
-
-		context.save();
-		context.translate(-112, -5);
-		context.rotate(celebrating ? 0.9 + Math.cos(animationTime * 6) * 0.2 : 0.1);
-		context.fillStyle = '#27344a'; context.beginPath(); context.roundRect(-20, 0, 40, 124, 18); context.fill();
-		context.fillStyle = '#e5a378'; context.beginPath(); context.arc(0, 131, 17, 0, Math.PI * 2); context.fill();
-		if (celebrating) { context.font = '25px sans-serif'; context.fillText('🤙', -10, 147); }
-		context.restore();
+		drawArm(context, 1, arms.rightUpper, arms.rightFore, animationMode);
+		drawArm(context, -1, arms.leftUpper, arms.leftFore, celebrating ? 'celebrate' : 'idle');
 
 		context.save();
 		context.translate(0, -70 + headBounce);
@@ -291,14 +373,27 @@ import Layout from '../layouts/Layout.astro';
 		}
 	}
 
+	function setSpeech(message) {
+		speechText.textContent = message;
+		if (reduceMotion.matches) return;
+		speechText.animate([{ opacity: 0, transform: 'translateY(6px) scale(.96)' }, { opacity: 1, transform: 'none' }], { duration: 320, easing: 'cubic-bezier(.2, .7, .2, 1)' });
+	}
+
+	function playReaction(mode) {
+		if (reduceMotion.matches) return;
+		avatarCard.animate([{ scale: '1' }, { scale: '1.035' }, { scale: '1' }], { duration: 480, easing: 'cubic-bezier(.34, 1.56, .64, 1)' });
+		if (mode === 'celebrate') avatarScene.animate([{ rotate: '0deg' }, { rotate: '-2.5deg' }, { rotate: '2.5deg' }, { rotate: '-1.5deg' }, { rotate: '0deg' }], { duration: 700, easing: 'ease-in-out' });
+	}
+
 	function setAnimation(mode, message, emojis, count, duration = 3200) {
 		animationMode = mode;
-		speechText.textContent = message;
+		setSpeech(message);
 		spawnBurst(emojis, count);
+		playReaction(mode);
 		window.clearTimeout(resetTimer);
 		resetTimer = window.setTimeout(() => {
 			animationMode = 'idle';
-			speechText.textContent = '👋 ¡Hola! Haz clic en los botones para animarme.';
+			setSpeech('👋 ¡Hola! Haz clic en los botones para animarme.');
 		}, duration);
 	}
 
@@ -306,13 +401,94 @@ import Layout from '../layouts/Layout.astro';
 	document.getElementById('btn-like').addEventListener('click', () => setAnimation('like', '¡Muchas gracias por el apoyo! 👍🔥', ['👍', '💙', '⭐', '🔥'], 12));
 	document.getElementById('btn-celebrate').addEventListener('click', () => setAnimation('celebrate', '🤙 ¡Modo celebración activado! ⚽🔥', ['🤙', '⚽', '✨', '🎉', '🔥'], 16, 4500));
 
-	avatar.addEventListener('pointermove', (event) => {
+	let kickTimer;
+	function kickBall(event) {
+		setAnimation('celebrate', '⚽ ¡Golazo! Gracias por pasar por aquí.', ['⚽', '✨', '🔥', '🎉'], 10, 3500);
+		if (reduceMotion.matches) return;
+		// El contenedor está en una capa 3D: se convierte la posición del clic a sus coordenadas locales.
+		const bounds = burstContainer.getBoundingClientRect();
+		const scale = burstContainer.offsetWidth / bounds.width;
+		const direction = event.clientX < bounds.left + bounds.width / 2 ? -1 : 1;
+		const distance = direction * (120 + Math.random() * 80);
+		const ball = document.createElement('span');
+		ball.className = 'kicked-ball';
+		ball.style.left = `${(event.clientX - bounds.left) * scale}px`;
+		ball.style.top = `${(event.clientY - bounds.top) * scale}px`;
+		burstContainer.appendChild(ball);
+		ball.animate([
+			{ transform: 'translate(0, 0) rotate(0deg) scale(1)', opacity: 1, easing: 'cubic-bezier(.2, .8, .4, 1)' },
+			{ transform: `translate(${distance * 0.55}px, -230px) rotate(${direction * 400}deg) scale(1.1)`, opacity: 1, offset: 0.45, easing: 'cubic-bezier(.5, 0, .9, .6)' },
+			{ transform: `translate(${distance}px, -90px) rotate(${direction * 760}deg) scale(.55)`, opacity: 0 },
+		], { duration: 1100 }).finished.then(() => ball.remove());
+		avatarCard.classList.add('is-kicking');
+		window.clearTimeout(kickTimer);
+		kickTimer = window.setTimeout(() => avatarCard.classList.remove('is-kicking'), 700);
+	}
+	avatarCard.addEventListener('click', kickBall);
+
+	const tilt = { x: 0, y: 0, targetX: 0, targetY: 0, pointerActive: false, running: false, visible: true };
+
+	function animateTilt(time) {
+		if (!tilt.pointerActive) {
+			tilt.targetX = Math.sin(time / 2600) * 0.35;
+			tilt.targetY = Math.cos(time / 3400) * 0.25;
+		}
+		tilt.x += (tilt.targetX - tilt.x) * 0.07;
+		tilt.y += (tilt.targetY - tilt.y) * 0.07;
+		avatarScene.style.setProperty('--tilt-x', `${(-tilt.y * 8).toFixed(2)}deg`);
+		avatarScene.style.setProperty('--tilt-y', `${(tilt.x * 11).toFixed(2)}deg`);
+		if (tilt.visible && !reduceMotion.matches) requestAnimationFrame(animateTilt);
+		else tilt.running = false;
+	}
+
+	function startTilt() {
+		if (tilt.running || reduceMotion.matches) return;
+		tilt.running = true;
+		requestAnimationFrame(animateTilt);
+	}
+
+	heroSection.addEventListener('pointermove', (event) => {
 		const bounds = avatar.getBoundingClientRect();
-		pointerX = Math.max(-5, Math.min(5, ((event.clientX - bounds.left) / bounds.width - 0.5) * 10));
-		pointerY = Math.max(-3, Math.min(3, ((event.clientY - bounds.top) / bounds.height - 0.32) * 8));
+		pointerX = clamp(((event.clientX - bounds.left) / bounds.width - 0.5) * 10, -5, 5);
+		pointerY = clamp(((event.clientY - bounds.top) / bounds.height - 0.32) * 8, -3, 3);
+		if (!finePointer.matches || reduceMotion.matches) return;
+		const stageBounds = avatarStage.getBoundingClientRect();
+		const cardBounds = avatarCard.getBoundingClientRect();
+		tilt.pointerActive = true;
+		tilt.targetX = clamp((event.clientX - stageBounds.left - stageBounds.width / 2) / (stageBounds.width * 0.75), -1, 1);
+		tilt.targetY = clamp((event.clientY - stageBounds.top - stageBounds.height / 2) / (stageBounds.height * 0.75), -1, 1);
+		avatarCard.style.setProperty('--spot-x', `${event.clientX - cardBounds.left}px`);
+		avatarCard.style.setProperty('--spot-y', `${event.clientY - cardBounds.top}px`);
 	});
-	avatar.addEventListener('pointerleave', () => { pointerX = 0; pointerY = 0; });
+	heroSection.addEventListener('pointerleave', () => { pointerX = 0; pointerY = 0; tilt.pointerActive = false; });
+	new IntersectionObserver(([entry]) => {
+		tilt.visible = entry.isIntersecting;
+		if (tilt.visible) startTilt();
+	}).observe(heroSection);
+	reduceMotion.addEventListener('change', () => {
+		avatarScene.style.removeProperty('--tilt-x');
+		avatarScene.style.removeProperty('--tilt-y');
+		startTilt();
+		requestScrollParallax();
+	});
 	drawAvatar();
+
+	const heroOrbs = [...heroSection.querySelectorAll('[data-scroll-speed]')];
+	let scrollTicking = false;
+	function updateScrollParallax() {
+		scrollTicking = false;
+		const progress = reduceMotion.matches ? 0 : clamp(window.scrollY / heroSection.offsetHeight, 0, 1);
+		for (const orb of heroOrbs) orb.style.translate = `0 ${(progress * Number(orb.dataset.scrollSpeed)).toFixed(1)}px`;
+		avatarStage.style.setProperty('--scroll-shift', desktopLayout.matches ? `${(progress * 70).toFixed(1)}px` : '0px');
+	}
+	function requestScrollParallax() {
+		if (scrollTicking) return;
+		scrollTicking = true;
+		requestAnimationFrame(updateScrollParallax);
+	}
+	window.addEventListener('scroll', requestScrollParallax, { passive: true });
+	window.addEventListener('resize', requestScrollParallax);
+	requestScrollParallax();
 
 	const backgroundCanvas = document.getElementById('particle-canvas');
 	const backgroundContext = backgroundCanvas.getContext('2d');
